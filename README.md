@@ -7,7 +7,7 @@ Sistema CRUD desarrollado con Express.js, MySQL y Multer para la carga de fotos 
 - Crear, listar, editar y eliminar profesores.
 - Crear, listar, editar y eliminar cursos.
 - Relacionar cada curso con un profesor mediante `id_profesor`.
-- Cargar foto obligatoria al registrar un profesor.
+- Cargar foto obligatoria al registrar un profesor y guardarla en MySQL.
 - Validar campos obligatorios en el backend.
 - Interfaz HTML con Bootstrap y CSS propio.
 
@@ -26,12 +26,11 @@ Sistema CRUD desarrollado con Express.js, MySQL y Multer para la carga de fotos 
 src/
   config/       Conexion a MySQL
   controllers/  Logica del CRUD
-  middleware/   Carga de imagenes con Multer
+  middleware/   Recepcion de imagenes con Multer
   models/       Consultas a MySQL
   routes/       Rutas de profesores y cursos
   views/        HTML renderizado desde Express
 public/css/     Estilos de la interfaz
-uploads/        Carpeta para fotos subidas
 database-aiven.sql Script para crear tablas en Aiven MySQL
 render.yaml     Configuracion base para Render
 ```
@@ -69,7 +68,7 @@ Para Aiven MySQL, ejecutar el archivo:
 database-aiven.sql
 ```
 
-Este script crea las tablas `profesores` y `cursos` con su relacion.
+Este script crea las tablas `profesores` y `cursos` con su relacion. La columna `foto` usa `LONGTEXT` para guardar la imagen directamente en MySQL y evitar perdida de archivos en Render.
 
 ## Despliegue
 

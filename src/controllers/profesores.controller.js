@@ -1,6 +1,16 @@
 const profesoresModel = require("../models/profesores.model");
 const { renderPage, escapeHtml, alert } = require("../views/layout");
 
+function imageToDataUrl(file) {
+  if (!file) return null;
+  return `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+}
+
+function fotoSrc(foto) {
+  if (!foto) return "";
+  return foto.startsWith("data:image/") ? foto : `/uploads/${escapeHtml(foto)}`;
+}
+
 function validateProfesor(body, file, requirePhoto = false) {
   if (!body.nombre || !body.especialidad) {
     return "Nombre y especialidad son obligatorios.";
@@ -34,7 +44,7 @@ function profesorForm({ profesor = {}, action, title, error, requirePhoto = fals
         <div class="col-12">
           <label class="form-label" for="foto">Foto del profesor</label>
           <input class="form-control" id="foto" name="foto" type="file" accept="image/*" ${requirePhoto ? "required" : ""}>
-          ${profesor.foto ? `<img class="preview mt-3" src="/uploads/${escapeHtml(profesor.foto)}" alt="Foto actual">` : ""}
+          ${profesor.foto ? `<img class="preview mt-3" src="${fotoSrc(profesor.foto)}" alt="Foto actual">` : ""}
         </div>
       </div>
       <div class="mt-4">
@@ -50,7 +60,7 @@ async function index(req, res, next) {
     const profesores = await profesoresModel.findAll();
     const rows = profesores.map((profesor) => `
       <tr>
-        <td>${profesor.foto ? `<img class="avatar" src="/uploads/${escapeHtml(profesor.foto)}" alt="Foto">` : "<span class='badge text-bg-secondary'>Sin foto</span>"}</td>
+        <td>${profesor.foto ? `<img class="avatar" src="${fotoSrc(profesor.foto)}" alt="Foto">` : "<span class='badge text-bg-secondary'>Sin foto</span>"}</td>
         <td>${escapeHtml(profesor.nombre)}</td>
         <td>${escapeHtml(profesor.especialidad)}</td>
         <td>${profesor.total_cursos}</td>
@@ -112,7 +122,7 @@ async function store(req, res, next) {
     await profesoresModel.create({
       nombre: req.body.nombre.trim(),
       especialidad: req.body.especialidad.trim(),
-      foto: req.file ? req.file.filename : null,
+      foto: imageToDataUrl(req.file),
     });
     res.redirect("/profesores");
   } catch (error) {
@@ -152,7 +162,7 @@ async function update(req, res, next) {
     await profesoresModel.update(req.params.id, {
       nombre: req.body.nombre.trim(),
       especialidad: req.body.especialidad.trim(),
-      foto: req.file ? req.file.filename : null,
+      foto: imageToDataUrl(req.file),
     });
     res.redirect("/profesores");
   } catch (error) {
