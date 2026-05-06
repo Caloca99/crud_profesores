@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: crud-profesores
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.0
+      - key: DB_SSL
+        value: "true"
