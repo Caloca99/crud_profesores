@@ -1,93 +1,81 @@
 # CRUD de Profesores y Cursos
 
-Sistema CRUD completo con Express.js, MySQL y carga de imagenes usando Multer.
+Sistema CRUD desarrollado con Express.js, MySQL y Multer para la carga de fotos de profesores.
 
 ## Funcionalidades
 
-- Listar, crear, editar y eliminar profesores.
-- Listar, crear, editar y eliminar cursos.
-- Relacion entre cursos y profesores mediante `id_profesor`.
-- Carga obligatoria de foto al registrar profesor y actualizacion opcional al editar.
-- Validacion basica de campos obligatorios en backend.
-- Interfaz HTML + CSS con Bootstrap.
+- Crear, listar, editar y eliminar profesores.
+- Crear, listar, editar y eliminar cursos.
+- Relacionar cada curso con un profesor mediante `id_profesor`.
+- Cargar foto obligatoria al registrar un profesor.
+- Validar campos obligatorios en el backend.
+- Interfaz HTML con Bootstrap y CSS propio.
 
-## Requisitos
+## Tecnologias
 
-- Node.js 18 o superior.
-- MySQL.
+- Node.js
+- Express.js
+- MySQL
+- mysql2
+- Multer
+- Bootstrap
 
-## Instalacion local
+## Estructura principal
 
-1. Instalar dependencias:
-
-```bash
-npm install
+```text
+src/
+  config/       Conexion a MySQL
+  controllers/  Logica del CRUD
+  middleware/   Carga de imagenes con Multer
+  models/       Consultas a MySQL
+  routes/       Rutas de profesores y cursos
+  views/        HTML renderizado desde Express
+public/css/     Estilos de la interfaz
+uploads/        Carpeta para fotos subidas
+database-aiven.sql Script para crear tablas en Aiven MySQL
+render.yaml     Configuracion base para Render
 ```
 
-2. Crear la base de datos ejecutando `database.sql` en MySQL.
-
-3. Crear un archivo `.env` tomando como base `.env.example`:
+## Variables de entorno
 
 ```env
 PORT=3000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=crud_profesores
-DB_PORT=3306
+DB_HOST=host_mysql
+DB_USER=usuario_mysql
+DB_PASSWORD=password_mysql
+DB_NAME=defaultdb
+DB_PORT=15481
+DB_SSL=true
 ```
 
-4. Iniciar el servidor:
+## Instalacion local
 
 ```bash
-npm run dev
+npm install
+npm start
 ```
 
-5. Abrir:
+La aplicacion se abre en:
 
 ```text
 http://localhost:3000
 ```
 
-## Estructura
+## Base de datos
+
+Para Aiven MySQL, ejecutar el archivo:
 
 ```text
-src/
-  config/       Conexion a MySQL
-  controllers/  Logica de profesores y cursos
-  middleware/   Configuracion de Multer
-  models/       Consultas SQL
-  routes/       Rutas de la aplicacion
-  views/        Layout HTML reutilizable
-public/css/     Estilos
-uploads/        Imagenes cargadas
-database.sql    Script de base de datos
+database-aiven.sql
 ```
 
-## Despliegue en Railway
+Este script crea las tablas `profesores` y `cursos` con su relacion.
 
-Railway permite crear una app Node.js y una base de datos MySQL en el mismo proyecto.
+## Despliegue
 
-1. Subir el proyecto a GitHub.
-2. En Railway, crear un nuevo proyecto desde el repositorio de GitHub.
-3. Agregar una base de datos MySQL al proyecto.
-4. En el servicio web, configurar estas variables si Railway no las inyecta automaticamente:
-
-```env
-DB_HOST=valor_de_MYSQLHOST
-DB_USER=valor_de_MYSQLUSER
-DB_PASSWORD=valor_de_MYSQLPASSWORD
-DB_NAME=valor_de_MYSQLDATABASE
-DB_PORT=valor_de_MYSQLPORT
-```
-
-5. Usar estos comandos:
+El proyecto esta preparado para desplegarse en Render usando:
 
 ```text
 Build command: npm install
 Start command: npm start
 ```
-
-6. Ejecutar `database-aiven.sql` en la base MySQL remota usando DBeaver si usas Aiven. Para MySQL local puedes usar `database.sql`.
-
-Nota: las fotos se guardan en la carpeta `uploads`. En algunos hostings gratuitos el almacenamiento local puede perderse al reiniciar o redesplegar. Para un proyecto de examen funciona como demostracion, pero en produccion conviene usar Cloudinary, S3 o almacenamiento persistente.

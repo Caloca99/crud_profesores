@@ -16,13 +16,3 @@ CREATE TABLE IF NOT EXISTS cursos (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
-
-INSERT INTO profesores (nombre, especialidad, foto)
-SELECT 'Ana Torres', 'Matematica', NULL
-WHERE NOT EXISTS (SELECT 1 FROM profesores LIMIT 1);
-
-INSERT INTO cursos (nombre, id_profesor)
-SELECT 'Algebra Lineal', id_profesor
-FROM profesores
-WHERE nombre = 'Ana Torres'
-  AND NOT EXISTS (SELECT 1 FROM cursos LIMIT 1);
