@@ -88,6 +88,6 @@ Build command: npm install
 Start command: npm start
 ```
 
-6. Ejecutar `database.sql` en la base MySQL remota usando DBeaver.
+6. Ejecutar `database-aiven.sql` en la base MySQL remota usando DBeaver si usas Aiven. Para MySQL local puedes usar `database.sql`.
 
 Nota: las fotos se guardan en la carpeta `uploads`. En algunos hostings gratuitos el almacenamiento local puede perderse al reiniciar o redesplegar. Para un proyecto de examen funciona como demostracion, pero en produccion conviene usar Cloudinary, S3 o almacenamiento persistente.
