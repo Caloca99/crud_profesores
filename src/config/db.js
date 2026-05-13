@@ -23,7 +23,9 @@ const baseConfig = connectionUrl
 
 const pool = mysql.createPool({
   ...baseConfig,
-  ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined,
+  ssl: {
+  rejectUnauthorized: false,
+},
   waitForConnections: true,
   connectionLimit: 10,
 });
